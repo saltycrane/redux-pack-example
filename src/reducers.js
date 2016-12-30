@@ -1,6 +1,14 @@
-import { LOAD_FOO_STARTED, LOAD_FOO_SUCCESS, LOAD_FOO_FAILED } from './actions';
+import { combineReducers } from 'redux';
+import { handle } from 'redux-pack';
 
-function reducer(state={}, action) {
+import { LOAD_FOO_STARTED, LOAD_FOO_SUCCESS, LOAD_FOO_FAILED, LOAD_FOO } from './actions';
+
+const reducer = combineReducers({
+  thunkExample,
+  packExample,
+});
+
+function thunkExample(state={}, action) {
   const { type, payload } = action;
   switch (type) {
     case LOAD_FOO_STARTED:
@@ -23,6 +31,26 @@ function reducer(state={}, action) {
         isLoading: false,
         fooError: payload
       };
+    default:
+      return state;
+  }
+}
+
+function packExample(state={}, action) {
+  const { type, payload } = action;
+  switch (type) {
+    case LOAD_FOO:
+      console.log('LOAD_FOO');
+      return handle(state, action, {
+        start: s => ({
+          ...s,
+          isLoading: true,
+          fooError: null
+        }),
+        finish: s => ({ ...s, isLoading: false }),
+        failure: s => ({ ...s, fooError: payload }),
+        success: s => ({ ...s, foo: payload }),
+      });
     default:
       return state;
   }

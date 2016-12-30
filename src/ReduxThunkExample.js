@@ -12,14 +12,14 @@ class ReduxThunkExample extends Component {
     return (
       <div>
         <h4>ReduxThunkExample</h4>
-        <button onClick={() => dispatch(loadFooThunk(1234))}>Dispatch action</button>
+        <button onClick={() => dispatch(loadFooThunk(1234))}>Dispatch action w/ redux-thunk</button>
       </div>
     );
   }
 }
 
 ReduxThunkExample = connect(
-  (state) => ({state}),
+  (state) => ({state: state.thunkExample}),
 )(ReduxThunkExample);
 
 export default ReduxThunkExample;
